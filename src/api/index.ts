@@ -11,7 +11,7 @@ import type {
 } from '../types'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://gymtracker-api-production.up.railway.app/api',
 })
 
 // ---- Muscle Groups ----
