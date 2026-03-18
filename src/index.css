@@ -63,3 +63,18 @@ input[type=number] { -moz-appearance: textfield; }
 .fade-in {
   animation: fadeIn 0.25s ease forwards;
 }
+
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .burger-btn {
+    display: flex !important;
+  }
+}
+ 
+@media (min-width: 769px) {
+  .mobile-menu {
+    display: none !important;
+  }
+}

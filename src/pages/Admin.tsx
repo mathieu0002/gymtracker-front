@@ -112,7 +112,7 @@ export default function Admin() {
     if (!exMgId) { setExError('Groupe musculaire requis'); return }
     setExLoading(true); setExError('')
     try {
-      const ex = await createCustomExercise({ name: exName.trim(), muscleGroupId: exMgId, description: exDesc.trim() || undefined })
+      const ex = await createCustomExercise({ name: exName.trim(), muscleGroupId: exMgId, description: exDesc.trim() || "" })
       setExercises(prev => [...prev, ex])
       setExName(''); setExDesc('')
     } catch { setExError('Erreur — ce nom existe peut-être déjà') }
