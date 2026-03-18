@@ -96,7 +96,7 @@ export default function SelectProfile() {
                     {user.firstName} {user.lastName.toUpperCase()}
                   </div>
                   <div style={{ fontFamily: 'Share Tech Mono', fontSize: 10, color: 'var(--text-dim)', marginTop: 2 }}>
-                    APPUIE POUR CONTINUER →
+                    APPUIE POUR CONTINUER → 
                   </div>
                 </div>
               </button>
