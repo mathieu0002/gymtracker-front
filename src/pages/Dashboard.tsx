@@ -8,7 +8,7 @@ import {
   ResponsiveContainer, CartesianGrid, Legend
 } from 'recharts'
 
-const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos']
+const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos', 'fesses']
 const COLORS = ['#00e5ff', '#00e676', '#ff6d00', '#ffea00', '#ff4081', '#69f0ae', '#40c4ff', '#ea80fc']
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
