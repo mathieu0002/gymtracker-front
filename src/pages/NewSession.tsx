@@ -5,7 +5,7 @@ import { useUser } from '../context/UserContext'
 import type { SplitType, ExerciseDto, SessionExerciseDto, LastSessionSummaryDto } from '../types'
 import { SPLIT_LABELS } from '../types'
 
-const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos']
+const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos', 'fesses']
 
 const inputStyle: React.CSSProperties = {
   width: 80, padding: '9px 12px', borderRadius: 4,
