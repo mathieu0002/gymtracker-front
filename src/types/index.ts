@@ -97,3 +97,9 @@ export interface MuscleGroupDto {
   split: string
   createdAt: string
 }
+
+export interface UserDto {
+  id: string
+  firstName: string
+  lastName: string
+}

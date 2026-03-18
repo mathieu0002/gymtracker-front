@@ -8,6 +8,7 @@ import type {
   LastSessionSummaryDto,
   SplitType,
   MuscleGroupDto,
+  UserDto,
 } from '../types'
 
 const api = axios.create({
@@ -82,3 +83,13 @@ export const getVolumeHistory = (lastN = 10) =>
 
 export const getLastSessionBySplit = (split: SplitType) =>
   api.get<LastSessionSummaryDto>(`/sessions/last/${split}`).then(r => r.data)
+
+// ---- Users ----
+export const getUsers = () =>
+  api.get<UserDto[]>('/users').then(r => r.data)
+
+export const createUser = (data: { firstName: string; lastName: string }) =>
+  api.post<UserDto>('/users', data).then(r => r.data)
+
+export const deleteUser = (id: string) =>
+  api.delete(`/users/${id}`)
