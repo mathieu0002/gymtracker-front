@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getPersonalRecords, getExercisesBySplit, getProgression } from '../api'
+import { useUser } from '../context/UserContext'
 import type { PersonalRecordDto, SplitType, ExerciseDto, ProgressionDto } from '../types'
 import { SPLIT_LABELS } from '../types'
 import {
@@ -14,9 +15,8 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
     <div style={{ width: 3, height: 18, background: 'var(--cyan)', borderRadius: 2, boxShadow: '0 0 8px var(--cyan)' }} />
     <span style={{
-      fontFamily: 'Rajdhani, sans-serif',
-      fontSize: 13, fontWeight: 700, letterSpacing: 2,
-      color: 'var(--text-mid)', textTransform: 'uppercase' as const,
+      fontFamily: 'Rajdhani, sans-serif', fontSize: 13, fontWeight: 700,
+      letterSpacing: 2, color: 'var(--text-mid)', textTransform: 'uppercase' as const,
     }}>
       {children}
     </span>
@@ -24,6 +24,7 @@ const SectionLabel = ({ children }: { children: React.ReactNode }) => (
 )
 
 export default function Dashboard() {
+  const { currentUser } = useUser()
   const [prs, setPrs] = useState<PersonalRecordDto[]>([])
   const [loadingPrs, setLoadingPrs] = useState(true)
   const [selectedMuscle, setSelectedMuscle] = useState<SplitType>('pec')
@@ -31,20 +32,22 @@ export default function Dashboard() {
   const [loadingProg, setLoadingProg] = useState(false)
 
   useEffect(() => {
-    getPersonalRecords().then(setPrs).finally(() => setLoadingPrs(false))
-  }, [])
+    if (!currentUser) return
+    getPersonalRecords(currentUser.id).then(setPrs).finally(() => setLoadingPrs(false))
+  }, [currentUser])
 
   useEffect(() => {
+    if (!currentUser) return
     setLoadingProg(true)
     setProgressions([])
     getExercisesBySplit(selectedMuscle)
       .then(async (exs: ExerciseDto[]) => {
-        const progs = await Promise.all(exs.map((ex: ExerciseDto) => getProgression(ex.id)))
+        const progs = await Promise.all(exs.map((ex: ExerciseDto) => getProgression(ex.id, currentUser.id)))
         setProgressions(progs.filter((p: ProgressionDto) => p.points.length > 0))
       })
       .catch(() => setProgressions([]))
       .finally(() => setLoadingProg(false))
-  }, [selectedMuscle])
+  }, [selectedMuscle, currentUser])
 
   const mergedData = progressions
     .reduce((acc, prog) => {
@@ -68,7 +71,7 @@ export default function Dashboard() {
           TABLEAU DE <span style={{ color: 'var(--cyan)', textShadow: '0 0 20px var(--cyan-mid)' }}>BORD</span>
         </div>
         <div style={{ fontFamily: 'Share Tech Mono', fontSize: 11, color: 'var(--text-dim)', marginTop: 4, letterSpacing: 1 }}>
-          PERFORMANCE_ANALYTICS // REAL-TIME
+          {currentUser?.firstName.toUpperCase()} {currentUser?.lastName.toUpperCase()} // PERFORMANCE_ANALYTICS
         </div>
       </div>
 
@@ -83,14 +86,12 @@ export default function Dashboard() {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 10 }}>
             {prs.map((pr, i) => (
-              <div
-                key={pr.exerciseId}
-                style={{
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  borderTop: '2px solid var(--cyan)', borderRadius: 6,
-                  padding: 16, position: 'relative', overflow: 'hidden',
-                  transition: 'box-shadow 0.2s',
-                }}
+              <div key={pr.exerciseId} style={{
+                background: 'var(--bg-card)', border: '1px solid var(--border)',
+                borderTop: '2px solid var(--cyan)', borderRadius: 6,
+                padding: 16, position: 'relative', overflow: 'hidden',
+                transition: 'box-shadow 0.2s',
+              }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 16px var(--cyan-dim)' }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none' }}
               >

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 import type { UserDto } from '../types'
 
 interface UserContextType {
@@ -13,8 +13,10 @@ const UserContext = createContext<UserContextType>({
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUserState] = useState<UserDto | null>(() => {
-    const stored = localStorage.getItem('gymtracker_user')
-    return stored ? JSON.parse(stored) : null
+    try {
+      const stored = localStorage.getItem('gymtracker_user')
+      return stored ? JSON.parse(stored) : null
+    } catch { return null }
   })
 
   const setCurrentUser = (user: UserDto | null) => {
