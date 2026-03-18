@@ -1,12 +1,4 @@
-export type SplitType = 
-  | 'pec' 
-  | 'triceps' 
-  | 'dos' 
-  | 'bras' 
-  | 'epaules' 
-  | 'jambes' 
-  | 'cardio' 
-  | 'abdos'
+export type SplitType = 'pec' | 'triceps' | 'dos' | 'bras' | 'epaules' | 'jambes' | 'cardio' | 'abdos' | 'fesses'
 
 export interface SetDto {
   id: string
@@ -81,14 +73,15 @@ export interface LastSessionSummaryDto {
 }
 
 export const SPLIT_LABELS: Record<SplitType, string> = {
-  pec: 'Pec',
+  pec: 'Pecs',
   triceps: 'Triceps',
   dos: 'Dos',
   bras: 'Bras',
   epaules: 'Épaules',
   jambes: 'Jambes',
   cardio: 'Cardio',
-  abdos: 'Abdos'
+  abdos: 'Abdos',
+  fesses: 'Fessiers', 
 }
 
 export interface MuscleGroupDto {
