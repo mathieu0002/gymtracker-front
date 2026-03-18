@@ -3,22 +3,25 @@ import { getSessions, deleteSession } from '../api'
 import { useUser } from '../context/UserContext'
 import type { SessionDto } from '../types'
 import { SPLIT_LABELS } from '../types'
+import ConfirmModal from '../components/ConfirmModal'
 
 export default function History() {
   const { currentUser } = useUser()
   const [sessions, setSessions] = useState<SessionDto[]>([])
   const [expanded, setExpanded] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const [confirmId, setConfirmId] = useState<string | null>(null)
 
   useEffect(() => {
     if (!currentUser) return
     getSessions(currentUser.id).then(data => { setSessions(data); setLoading(false) })
   }, [currentUser])
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Supprimer cette séance ?')) return
-    await deleteSession(id)
-    setSessions(prev => prev.filter(s => s.id !== id))
+  const handleDelete = async () => {
+    if (!confirmId) return
+    await deleteSession(confirmId)
+    setSessions(prev => prev.filter(s => s.id !== confirmId))
+    setConfirmId(null)
   }
 
   if (loading) return (
@@ -29,6 +32,14 @@ export default function History() {
 
   return (
     <div className="fade-in">
+      {confirmId && (
+        <ConfirmModal
+          message="Supprimer cette séance ? Cette action est irréversible."
+          onConfirm={handleDelete}
+          onCancel={() => setConfirmId(null)}
+        />
+      )}
+
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: 32, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase' as const }}>
           HISTO<span style={{ color: 'var(--cyan)', textShadow: '0 0 20px var(--cyan-mid)' }}>RIQUE</span>
@@ -65,7 +76,7 @@ export default function History() {
                   <div style={{ fontFamily: 'Share Tech Mono', fontSize: 11, color: 'var(--text-dim)', padding: '3px 8px', border: '1px solid var(--border)', borderRadius: 3 }}>
                     {session.exercises?.length ?? 0} EXO
                   </div>
-                  <button onClick={e => { e.stopPropagation(); handleDelete(session.id) }} style={{
+                  <button onClick={e => { e.stopPropagation(); setConfirmId(session.id) }} style={{
                     background: 'none', border: '1px solid #2a1010', color: 'var(--red)', borderRadius: 4,
                     padding: '4px 10px', cursor: 'pointer', fontFamily: 'Rajdhani, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: 1, transition: 'all 0.15s',
                   }}

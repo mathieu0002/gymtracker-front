@@ -6,8 +6,9 @@ import {
 } from '../api'
 import type { MuscleGroupDto, ExerciseDto, SplitType, UserDto } from '../types'
 import { SPLIT_LABELS } from '../types'
+import ConfirmModal from '../components/ConfirmModal'
 
-const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos']
+const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos', 'fesses']
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
@@ -37,11 +38,14 @@ const btnDelete: React.CSSProperties = {
   fontFamily: 'Rajdhani, sans-serif', fontWeight: 700, letterSpacing: 1, cursor: 'pointer', transition: 'all 0.15s',
 }
 
+type ConfirmAction = { type: 'user' | 'mg' | 'exercise'; id: string; message: string } | null
+
 export default function Admin() {
   const [muscleGroups, setMuscleGroups] = useState<MuscleGroupDto[]>([])
   const [exercises, setExercises] = useState<ExerciseDto[]>([])
   const [users, setUsers] = useState<UserDto[]>([])
   const [loading, setLoading] = useState(true)
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null)
 
   const [mgName, setMgName] = useState('')
   const [mgSplit, setMgSplit] = useState<SplitType>('pec')
@@ -72,6 +76,23 @@ export default function Admin() {
       .finally(() => setLoading(false))
   }, [])
 
+  const handleConfirm = async () => {
+    if (!confirmAction) return
+    const { type, id } = confirmAction
+    if (type === 'user') {
+      await deleteUser(id)
+      setUsers(prev => prev.filter(u => u.id !== id))
+    } else if (type === 'mg') {
+      await deleteMuscleGroup(id)
+      setMuscleGroups(prev => prev.filter(mg => mg.id !== id))
+      setExercises(prev => prev.filter(ex => ex.muscleGroupId !== id))
+    } else if (type === 'exercise') {
+      await deleteExercise(id)
+      setExercises(prev => prev.filter(ex => ex.id !== id))
+    }
+    setConfirmAction(null)
+  }
+
   const handleAddUser = async () => {
     if (!userFirstName.trim() || !userLastName.trim()) { setUserError('Prénom et nom requis'); return }
     setUserLoading(true); setUserError('')
@@ -81,12 +102,6 @@ export default function Admin() {
       setUserFirstName(''); setUserLastName('')
     } catch { setUserError('Erreur lors de la création') }
     finally { setUserLoading(false) }
-  }
-
-  const handleDeleteUser = async (id: string) => {
-    if (!confirm('Supprimer cet utilisateur ? Toutes ses séances seront supprimées.')) return
-    await deleteUser(id)
-    setUsers(prev => prev.filter(u => u.id !== id))
   }
 
   const handleAddMuscleGroup = async () => {
@@ -100,29 +115,16 @@ export default function Admin() {
     finally { setMgLoading(false) }
   }
 
-  const handleDeleteMuscleGroup = async (id: string) => {
-    if (!confirm('Supprimer ce groupe ?')) return
-    await deleteMuscleGroup(id)
-    setMuscleGroups(prev => prev.filter(mg => mg.id !== id))
-    setExercises(prev => prev.filter(ex => ex.muscleGroupId !== id))
-  }
-
   const handleAddExercise = async () => {
     if (!exName.trim()) { setExError('Nom requis'); return }
     if (!exMgId) { setExError('Groupe musculaire requis'); return }
     setExLoading(true); setExError('')
     try {
-      const ex = await createCustomExercise({ name: exName.trim(), muscleGroupId: exMgId, description: exDesc.trim() || "" })
+      const ex = await createCustomExercise({ name: exName.trim(), muscleGroupId: exMgId, description: exDesc.trim() || '' })
       setExercises(prev => [...prev, ex])
       setExName(''); setExDesc('')
     } catch { setExError('Erreur — ce nom existe peut-être déjà') }
     finally { setExLoading(false) }
-  }
-
-  const handleDeleteExercise = async (id: string) => {
-    if (!confirm('Supprimer cet exercice ?')) return
-    await deleteExercise(id)
-    setExercises(prev => prev.filter(ex => ex.id !== id))
   }
 
   const filteredExercises = filterSplit === 'all' ? exercises
@@ -134,6 +136,15 @@ export default function Admin() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }} className="fade-in">
+
+      {confirmAction && (
+        <ConfirmModal
+          message={confirmAction.message}
+          onConfirm={handleConfirm}
+          onCancel={() => setConfirmAction(null)}
+        />
+      )}
+
       <div>
         <div style={{ fontFamily: 'Rajdhani, sans-serif', fontSize: 32, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase' as const }}>
           PANNEAU <span style={{ color: 'var(--orange)', textShadow: '0 0 20px var(--orange)' }}>ADMIN</span>
@@ -178,11 +189,11 @@ export default function Admin() {
                 <div style={{ width: 36, height: 36, borderRadius: 6, background: 'var(--cyan-dim)', border: '1px solid var(--cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Rajdhani, sans-serif', fontWeight: 700, fontSize: 13, color: 'var(--cyan)' }}>
                   {u.firstName[0]}{u.lastName[0]}
                 </div>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 600 }}>{u.firstName} {u.lastName}</div>
-                </div>
+                <div style={{ fontSize: 14, fontWeight: 600 }}>{u.firstName} {u.lastName}</div>
               </div>
-              <button onClick={() => handleDeleteUser(u.id)} style={btnDelete}
+              <button
+                onClick={() => setConfirmAction({ type: 'user', id: u.id, message: `Supprimer ${u.firstName} ${u.lastName} ? Toutes ses séances seront supprimées.` })}
+                style={btnDelete}
                 onMouseEnter={e => e.currentTarget.style.background = '#2a1010'}
                 onMouseLeave={e => e.currentTarget.style.background = 'none'}
               >SUPPR</button>
@@ -225,7 +236,9 @@ export default function Admin() {
                 </div>
                 <span style={{ fontSize: 14, fontWeight: 500 }}>{mg.name}</span>
               </div>
-              <button onClick={() => handleDeleteMuscleGroup(mg.id)} style={btnDelete}
+              <button
+                onClick={() => setConfirmAction({ type: 'mg', id: mg.id, message: `Supprimer "${mg.name}" ? Les exercices liés seront aussi supprimés.` })}
+                style={btnDelete}
                 onMouseEnter={e => e.currentTarget.style.background = '#2a1010'}
                 onMouseLeave={e => e.currentTarget.style.background = 'none'}
               >SUPPR</button>
@@ -300,7 +313,9 @@ export default function Admin() {
                     <div style={{ fontFamily: 'Share Tech Mono', fontSize: 9, color: 'var(--orange)', border: '1px solid var(--orange-dim)', borderRadius: 3, padding: '2px 6px', background: 'var(--orange-dim)' }}>CUSTOM</div>
                   )}
                 </div>
-                <button onClick={() => handleDeleteExercise(ex.id)} style={btnDelete}
+                <button
+                  onClick={() => setConfirmAction({ type: 'exercise', id: ex.id, message: `Supprimer "${ex.name}" ?` })}
+                  style={btnDelete}
                   onMouseEnter={e => e.currentTarget.style.background = '#2a1010'}
                   onMouseLeave={e => e.currentTarget.style.background = 'none'}
                 >SUPPR</button>
