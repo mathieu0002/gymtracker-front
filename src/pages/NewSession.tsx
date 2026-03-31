@@ -234,8 +234,28 @@ export default function NewSession() {
               {se.sets.length > 0 && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 14 }}>
                   {se.sets.map(s => (
-                    <div key={s.id} style={{ background: 'var(--green-dim)', border: '1px solid var(--green)', borderRadius: 4, padding: '4px 10px', fontFamily: 'Share Tech Mono', fontSize: 12, color: 'var(--green)' }}>
+                    <div key={s.id} style={{
+                      background: 'var(--green-dim)', border: '1px solid var(--green)',
+                      borderRadius: 4, padding: '4px 10px', fontFamily: 'Share Tech Mono',
+                      fontSize: 12, color: 'var(--green)', display: 'flex', alignItems: 'center', gap: 8
+                    }}>
                       {s.weightKg}kg × {s.reps}
+                      <button
+                        onClick={() => setSessionExercises(prev => prev.map(ex =>
+                          ex.id === se.id
+                            ? { ...ex, sets: ex.sets.filter(set => set.id !== s.id).map((set, i) => ({ ...set, setNumber: i + 1 })) }
+                            : ex
+                        ))}
+                        style={{
+                          background: 'none', border: 'none', color: 'var(--green)',
+                          cursor: 'pointer', padding: 0, fontSize: 12, lineHeight: 1,
+                          opacity: 0.6, fontFamily: 'Share Tech Mono',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                        onMouseLeave={e => (e.currentTarget.style.opacity = '0.6')}
+                      >
+                        ✕
+                      </button>
                     </div>
                   ))}
                 </div>
