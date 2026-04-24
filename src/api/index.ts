@@ -5,7 +5,7 @@ import type {
 } from '../types'
 
 const api = axios.create({
-   baseURL: 'https://gymtracker-api-1kin.onrender.com',
+   baseURL: 'https://gymtracker-api-1kin.onrender.com/api',
 })
 
 // ---- Users ----
