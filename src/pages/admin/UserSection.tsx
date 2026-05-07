@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { UserDto } from '../../types'
 import { createUser } from '../../api'
 import styles from '../Admin.module.css'
-import { SectionLabel } from './SectionLabel'
+import { SectionLabel } from '../SectionLabel'
 
 interface UserSectionProps {
   users: UserDto[]

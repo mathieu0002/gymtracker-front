@@ -3,7 +3,7 @@ import type { MuscleGroupDto, SplitType } from '../../types'
 import { SPLIT_LABELS } from '../../types'
 import { createMuscleGroup } from '../../api'
 import styles from '../Admin.module.css'
-import { SectionLabel } from './SectionLabel'
+import { SectionLabel } from '../SectionLabel'
 
 const SPLITS: SplitType[] = ['pec', 'triceps', 'dos', 'bras', 'epaules', 'jambes', 'cardio', 'abdos', 'fesses']
 
