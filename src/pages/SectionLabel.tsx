@@ -1,4 +1,4 @@
-import styles from '../Admin.module.css'
+import styles from './Admin.module.css'
 
 export const SectionLabel = ({ children }: { children: React.ReactNode }) => (
   <div className={styles.sectionLabel}>
