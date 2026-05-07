@@ -1,0 +1,78 @@
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.overlayBackground {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.modalContent {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  padding: 28px;
+  max-width: 340px;
+  width: 100%;
+  box-shadow: 0 0 32px rgba(255, 23, 68, 0.2);
+}
+
+.modalHeader {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--red);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.modalMessage {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+}
+
+.buttonBase {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.buttonCancel {
+  composes: buttonBase; /* Inherits styles from buttonBase */
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+}
+
+.buttonConfirm {
+  composes: buttonBase; /* Inherits styles from buttonBase */
+  border: 1px solid var(--red);
+  background: rgba(255, 23, 68, 0.1);
+  color: var(--red);
+}
