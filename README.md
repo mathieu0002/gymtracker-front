@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# GymTracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface frontend pour une application de suivi de musculation, avec un design inspiré de l'esthétique "cyberpunk".
 
-Currently, two official plugins are available:
+## Fonctionnalités
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **Sélection de profil** : Choisissez un utilisateur.
+*   **Tableau de bord** : Visualisez vos records (PRs) et votre progression via des graphiques.
+*   **Nouvelle séance** : Enregistrez vos entraînements en 3 étapes simples.
+*   **Historique** : Consultez vos séances passées.
+*   **Admin** : Gérez les utilisateurs, exercices et groupes musculaires.
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   React & TypeScript
+*   Vite
+*   React Router
+*   Recharts
+*   CSS pur
 
-## Expanding the ESLint configuration
+## Lancement
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Ce projet est uniquement le **frontend**. Il nécessite une API backend pour fonctionner.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1.  **Installer les dépendances**
+    ```bash
+    npm install
+    ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2.  **Lancer le serveur de développement**
+    L'application sera disponible sur `http://localhost:5173`.
+    ```bash
+    npm run dev
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Scripts disponibles
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+*   `npm run dev`: Lance le serveur de développement.
+*   `npm run build`: Compile l'application pour la production.
+*   `npm run preview`: Lance un serveur local pour prévisualiser le build de production.

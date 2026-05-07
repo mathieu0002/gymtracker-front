@@ -1,0 +1,252 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.headerTitle {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.titleHighlight {
+  color: var(--orange);
+  text-shadow: 0 0 20px var(--orange);
+}
+
+.headerSubtitle {
+  font-family: 'Share Tech Mono', sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+  letter-spacing: 1;
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.sectionDecorator {
+  width: 3px;
+  height: 18px;
+  background: var(--orange);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--orange);
+}
+
+.sectionLabelText {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-mid);
+  text-transform: uppercase;
+}
+
+.formCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--orange);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.formCardHeader {
+  font-family: 'Share Tech Mono', sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+  letter-spacing: 1;
+}
+
+.formRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.formField {
+  flex: 1;
+  min-width: 140px;
+}
+
+.formLabel {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  display: block;
+}
+
+.input,
+.select {
+  padding: 10px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Exo 2', sans-serif;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--orange);
+}
+
+.select {
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.buttonPrimary {
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px solid var(--orange);
+  background: var(--orange-dim);
+  color: var(--orange);
+  font-size: 12px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.buttonPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  font-family: 'Share Tech Mono', sans-serif;
+  font-size: 11px;
+  color: var(--red);
+  margin-top: 10px;
+}
+
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.buttonDelete {
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #2a1010;
+  background: none;
+  color: var(--red);
+  font-size: 11px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.buttonDelete:hover {
+  background: #2a1010;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mgSplitTag {
+  font-family: 'Share Tech Mono', sans-serif;
+  font-size: 10px;
+  color: var(--orange);
+  border: 1px solid var(--orange-dim);
+  border-radius: 3px;
+  padding: 2px 8px;
+  background: var(--orange-dim);
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.filterButton {
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.filterButtonActive {
+  composes: filterButton;
+  border-color: var(--orange);
+  background: var(--orange-dim);
+  color: var(--orange);
+}
+
+.exCustomTag {
+  font-family: 'Share Tech Mono', sans-serif;
+  font-size: 9px;
+  color: var(--orange);
+  border: 1px solid var(--orange-dim);
+  border-radius: 3px;
+  padding: 2px 6px;
+  background: var(--orange-dim);
+}
+
+.exMgName {
+  font-family: 'Share Tech Mono', sans-serif;
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
